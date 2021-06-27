@@ -1,65 +1,69 @@
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+//Next.JS
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import InfoPanel from '../components/info-panel';
 
-export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+function Home({ info_data }) {
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+  return (<>
+    <main>
+      <InfoPanel docData={info_data} />
+    </main>
+  </>
+  );
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+}
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+export default Home;
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+// Get props at build time for SSG
+export async function getStaticProps() {
+  const info_data = {
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+    // The data.
+    data: {
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+        // The background of the entire component.
+        bg: { bgImage: "", colorFrom: "#001510", colorTo: "#00be8e", gradientDir: "to bottom" },
+
+        // The sections.
+        sections: [
+            {
+                "desc": "Description Text",
+                "id": "01",
+                "subtitle": "Our algorithms are ...",
+                "title": "Smart Matching Algorithms"
+            },
+            {
+                "desc": "Description Text 2",
+                "id": "02",
+                "subtitle": "subtitle 2",
+                "title": "Title 2"
+            },
+            {
+              "desc": "Description Text 3",
+              "id": "03",
+              "subtitle": "subtitle 3",
+              "title": "Title 3"
+          }            
+        ],
+
+        // The index of the starting section.
+        selected: 0,
+
+    },
+
+    // The style and type to show this component in.
+    style: 0, type: 0,
+
+};
+
+  return {
+    props: {
+      "info_data": info_data,
+    },
+    revalidate: 120, // In seconds
+  }
 }
